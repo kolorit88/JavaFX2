@@ -15,15 +15,12 @@ import java.util.Random;
 
 
 public class Geometry extends Application {
-
-    @FXML
-    private AnchorPane plane;
-
     @Override
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("geometry.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
 

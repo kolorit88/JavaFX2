@@ -33,8 +33,6 @@ public class GeometryController {
     @FXML
     public void initialize() {
         gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
     @FXML
@@ -43,11 +41,13 @@ public class GeometryController {
         int y = r.nextInt((int) paneMain.getHeight());
         int radius = r.nextInt(50) + 10;
         gc.fillOval(x, y, radius, radius);
-        System.out.println(x + " " + y + " " + radius);
     }
 
     @FXML
     void rectAct(ActionEvent event) {
-
+        int x = r.nextInt((int) paneMain.getWidth());
+        int y = r.nextInt((int) paneMain.getHeight());
+        int radius = r.nextInt(50) + 10;
+        gc.fillRect(x, y, radius, radius);
     }
 }
