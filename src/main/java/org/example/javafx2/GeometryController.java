@@ -49,5 +49,6 @@ public class GeometryController {
         int y = r.nextInt((int) paneMain.getHeight());
         int radius = r.nextInt(50) + 10;
         gc.fillRect(x, y, radius, radius);
+
     }
 }
