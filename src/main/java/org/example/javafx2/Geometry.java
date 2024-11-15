@@ -18,7 +18,7 @@ public class Geometry extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("geometry.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Geometry.class.getResource("geometry.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
         stage.setScene(scene);

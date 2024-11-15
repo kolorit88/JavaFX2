@@ -6,15 +6,22 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
+import org.example.javafx2.geometry2d.*;
 
+import java.util.*;
 import java.util.Random;
 
 public class GeometryController {
 
     Random r = new Random();
+
+    private final List<Figure> allFigures = new ArrayList<>();
+    private Figure selectedFigure;
+    double correctionCatchX, correctionCatchY;
+
 
     private GraphicsContext gc;
 
@@ -33,21 +40,65 @@ public class GeometryController {
     @FXML
     public void initialize() {
         gc = canvas.getGraphicsContext2D();
+
+        canvas.setOnMousePressed(this::MousePressed);
+        canvas.setOnMouseReleased(this::MouseReleased);
+        canvas.setOnMouseDragged(this::MouseDragged);
+
     }
 
     @FXML
     void circleAct(ActionEvent event) {
-        int x = r.nextInt((int) paneMain.getWidth());
-        int y = r.nextInt((int) paneMain.getHeight());
-        int radius = r.nextInt(50) + 10;
-        gc.fillOval(x, y, radius, radius);
+        List<Double> param = randomParameters();
+        Circle circle = new Circle(param.get(0), param.get(1), param.get(2));
+        allFigures.addFirst(circle);
+        circle.draw(canvas);
     }
 
     @FXML
     void rectAct(ActionEvent event) {
-        int x = r.nextInt((int) paneMain.getWidth());
-        int y = r.nextInt((int) paneMain.getHeight());
-        int radius = r.nextInt(50) + 10;
-        gc.fillRect(x, y, radius, radius);
+        List<Double> param = randomParameters();
+        Rectangle rectangle = new Rectangle(param.get(0), param.get(1), param.get(2), param.get(2));
+        allFigures.addFirst(rectangle);
+        rectangle.draw(canvas);
     }
+
+    private List<Double> randomParameters() {
+        double x = r.nextInt((int) paneMain.getWidth());
+        double y = r.nextInt((int) paneMain.getHeight());
+        double size = r.nextInt(70) + 50;
+        return List.of(x, y, size);
+    }
+
+    private void MousePressed(MouseEvent mouseEvent) {
+        for(Figure figure : allFigures) {
+            if(figure.intersection(mouseEvent.getSceneX(), mouseEvent.getSceneY())) {
+                selectedFigure = figure;
+                correctionCatchX = mouseEvent.getX() - selectedFigure.getX();
+                correctionCatchY = mouseEvent.getY() - selectedFigure.getY();
+                break;
+            }
+        }
+    }
+
+    private void MouseReleased(MouseEvent mouseEvent) {
+        selectedFigure = null;
+    }
+
+    private void MouseDragged(MouseEvent mouseEvent) {
+        if(selectedFigure != null) {
+            selectedFigure.moveTo(mouseEvent.getX() - correctionCatchX, mouseEvent.getY() - correctionCatchY);
+            updateCanvas();
+        }
+    }
+
+    private void updateCanvas(){
+        gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        for(Figure figure : allFigures.reversed()) {
+            figure.draw(canvas);
+        }
+    }
+
+
 }
