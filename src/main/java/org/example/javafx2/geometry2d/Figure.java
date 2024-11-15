@@ -40,6 +40,10 @@ public abstract class Figure {
         this.y = y;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public void moveTo(double x, double y){
         this.x = x;
         this.y = y;

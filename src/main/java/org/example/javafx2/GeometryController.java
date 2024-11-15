@@ -70,13 +70,24 @@ public class GeometryController {
         return List.of(x, y, size);
     }
 
-    private void MousePressed(MouseEvent mouseEvent) {
+    private void MousePressed(MouseEvent event) {
         for(Figure figure : allFigures) {
-            if(figure.intersection(mouseEvent.getSceneX(), mouseEvent.getSceneY())) {
-                selectedFigure = figure;
-                correctionCatchX = mouseEvent.getX() - selectedFigure.getX();
-                correctionCatchY = mouseEvent.getY() - selectedFigure.getY();
-                break;
+            if(figure.intersection(event.getSceneX(), event.getSceneY())) {
+                if(event.isPrimaryButtonDown()) {
+                    selectedFigure = figure;
+                    allFigures.remove(selectedFigure);
+                    allFigures.addFirst(selectedFigure);
+                    correctionCatchX = event.getX() - selectedFigure.getX();
+                    correctionCatchY = event.getY() - selectedFigure.getY();
+                    updateCanvas();
+                    break;
+                }
+                else if(event.isSecondaryButtonDown()) {
+                    Random random = new Random();
+                    figure.setColor(Color.color(random.nextDouble(1), random.nextDouble(1), random.nextDouble(1)));
+                    updateCanvas();
+                    break;
+                }
             }
         }
     }
