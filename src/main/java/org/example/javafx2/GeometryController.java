@@ -22,7 +22,6 @@ public class GeometryController {
     private Figure selectedFigure;
     double correctionCatchX, correctionCatchY;
 
-
     private GraphicsContext gc;
 
     @FXML
@@ -72,7 +71,7 @@ public class GeometryController {
 
     private void MousePressed(MouseEvent event) {
         for(Figure figure : allFigures) {
-            if(figure.intersection(event.getSceneX(), event.getSceneY())) {
+            if(figure.intersection(event.getX(), event.getY())) {
                 if(event.isPrimaryButtonDown()) {
                     selectedFigure = figure;
                     allFigures.remove(selectedFigure);
